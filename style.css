@@ -24,4 +24,5 @@ body {
   align-items: center;
   justify-content: center;
   overflow: auto;
+  border: 1px solid red;
 }
