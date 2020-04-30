@@ -129,7 +129,7 @@ const generateStateChart = (state) => {
       svg
         .append("text")
         .attr("x", 50)
-        .attr("y", 50)
+        .attr("y", 30)
         .text(state + " New Cases Daily")
         .style("font-size", "1.5rem")
         .style("font-weight", "bold");
