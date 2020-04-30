@@ -222,7 +222,7 @@ const generateCountryChart = (country) => {
       //     add header
       document.getElementById(
         "graph-label"
-      ).textContent = `${state} New Cases Daily`;
+      ).textContent = `${country} New Cases Daily`;
     });
 };
 
