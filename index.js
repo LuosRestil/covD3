@@ -21,6 +21,43 @@ const generateStateChart = (state) => {
   fetch(`https://covidtracking.com/api/v1/states/${state}/daily.json`)
     .then((response) => response.json())
     .then((data) => {
+      // **************************************
+      function responsivefy(svg) {
+        console.log("responsivefy firing");
+        const container = d3.select(svg.node().parentNode),
+          width = parseInt(svg.style("width"), 10),
+          height = parseInt(svg.style("height"), 10),
+          aspect = width / height;
+
+        // set viewBox attribute to the initial size
+        // control scaling with preserveAspectRatio
+        // resize svg on inital page load
+        svg
+          .attr("viewBox", `0 0 ${width} ${height}`)
+          .attr("preserveAspectRatio", "xMidYMid")
+          .call(resize);
+
+        // add a listener so the chart will be resized
+        // when the window resizes
+        // multiple listeners for the same event type
+        // requires a namespace, i.e., 'click.foo'
+        // api docs: https://goo.gl/F3ZCFr
+        d3.select(window).on("resize." + container.attr("id"), resize);
+
+        // this is the code that resizes the chart
+        // it will be called on load
+        // and in response to window resizes
+        // gets the width of the container
+        // and resizes the svg to fill it
+        // while maintaining a consistent aspect ratio
+        function resize() {
+          const w = parseInt(container.style("width"));
+          svg.attr("width", w);
+          svg.attr("height", Math.round(w / aspect));
+        }
+      }
+      // ***********************************************
+
       //     sort data by date, chop off initial null value
       data.sort((a, b) => a.date - b.date);
       data = data.slice(1);
@@ -38,10 +75,14 @@ const generateStateChart = (state) => {
 
       //     add svg to svg wrapper
       const svg = d3.select("#svg-wrapper").append("svg").attr("id", "chart");
-      let svgWidth = svg.node().parentNode.clientWidth;
-      let svgHeight = svg.node().parentNode.clientHeight;
-      // svg.attr("width", svgWidth).attr("height", svgHeight);
-      svg.attr("viewBox", `0 0 ${svgWidth} ${svgHeight}`);
+      let svgWidth = d3.select("#svg-wrapper").style("width");
+      let svgHeight = d3.select("#svg-wrapper").style("height");
+      svgWidth = parseInt(svgWidth.slice(0, -2));
+      svgHeight = parseInt(svgHeight.slice(0, -2));
+      svg.attr("width", svgWidth);
+      svg.attr("height", svgHeight).call(responsivefy);
+      // svg.attr("viewBox", `0 0 ${svgWidth} ${svgHeight}`);
+      // svg.attr("preserveAspectRatio", "xMidyMid meet");
 
       //     set variables for dimensions and spacing
       const padding = 40;
