@@ -1,3 +1,5 @@
+// TODO make pretty, change x axis ticks on mobile
+
 let months = [
   "January",
   "February",
