@@ -4,13 +4,14 @@
   box-sizing: border-box;
 }
 
-body {
+/* body {
   text-align: center;
-}
+} */
 
-#graph-id {
+#graph-label {
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 2rem;
+  margin-top: 1rem;
 }
 
 .bar:hover {

@@ -1,4 +1,4 @@
-// TODO make pretty, change x axis ticks on mobile
+// TODO make pretty, change x axis ticks on mobile, fix chart top cutoff on resize increase, add loading animation
 
 let months = [
   "January",
@@ -19,7 +19,6 @@ let state;
 let country;
 
 function responsivefy(svg) {
-  console.log("responsivefy firing");
   const container = d3.select(svg.node().parentNode),
     width = parseInt(svg.style("width"), 10),
     height = parseInt(svg.style("height"), 10),
@@ -108,6 +107,9 @@ const generateStateChart = (state) => {
 
       //     build x axis
       const xAxis = d3.axisBottom().scale(xScale);
+      if (svgWidth < 600) {
+        xAxis.ticks(4);
+      }
 
       //      add axes
       svg
@@ -119,6 +121,36 @@ const generateStateChart = (state) => {
         .attr("transform", `translate(${padding}, ${chartHeight + padding})`)
         .call(xAxis);
 
+      // drop shadows
+      // ********************************************
+      var defs = svg.append("defs");
+
+      var filter = defs
+        .append("filter")
+        .attr("id", "drop-shadow")
+        .attr("height", "150%")
+        .attr("width", "200%");
+
+      filter
+        .append("feGaussianBlur")
+        .attr("in", "SourceAlpha")
+        .attr("stdDeviation", barWidth / 3)
+        .attr("result", "blur");
+
+      filter
+        .append("feOffset")
+        .attr("in", "blur")
+        .attr("dx", barWidth / 10)
+        .attr("dy", 2)
+        .attr("result", "offsetBlur");
+
+      var feMerge = filter.append("feMerge");
+
+      feMerge.append("feMergeNode").attr("in", "offsetBlur");
+      feMerge.append("feMergeNode").attr("in", "SourceGraphic");
+
+      // ********************************************
+
       //     add bars
       let rect = svg
         .selectAll("rect")
@@ -128,6 +160,8 @@ const generateStateChart = (state) => {
         .attr("class", "bar")
         .attr("width", barWidth)
         .attr("height", (d) => yScale(0) - yScale(d.positiveIncrease))
+        .style("filter", "url(#drop-shadow)")
+        .attr("fill", "navy")
         .attr("x", (d, i) => xScale(d.dateChecked) + padding)
         .attr("y", (d) => yScale(d.positiveIncrease) + padding);
 
@@ -191,6 +225,9 @@ const generateCountryChart = (country) => {
 
       //     build x axis
       const xAxis = d3.axisBottom().scale(xScale);
+      if (svgWidth < 600) {
+        xAxis.ticks(4);
+      }
 
       //      add axes
       svg
@@ -202,6 +239,36 @@ const generateCountryChart = (country) => {
         .attr("transform", `translate(${padding}, ${chartHeight + padding})`)
         .call(xAxis);
 
+      // drop shadows
+      // ********************************************
+      var defs = svg.append("defs");
+
+      var filter = defs
+        .append("filter")
+        .attr("id", "drop-shadow")
+        .attr("height", "150%")
+        .attr("width", "200%");
+
+      filter
+        .append("feGaussianBlur")
+        .attr("in", "SourceAlpha")
+        .attr("stdDeviation", barWidth / 3)
+        .attr("result", "blur");
+
+      filter
+        .append("feOffset")
+        .attr("in", "blur")
+        .attr("dx", barWidth / 10)
+        .attr("dy", 2)
+        .attr("result", "offsetBlur");
+
+      var feMerge = filter.append("feMerge");
+
+      feMerge.append("feMergeNode").attr("in", "offsetBlur");
+      feMerge.append("feMergeNode").attr("in", "SourceGraphic");
+
+      // ********************************************
+
       //     add bars
       let rect = svg
         .selectAll("rect")
@@ -212,7 +279,9 @@ const generateCountryChart = (country) => {
         .attr("width", barWidth)
         .attr("height", (d) => yScale(0) - yScale(d.increase))
         .attr("x", (d, i) => xScale(d.date) + padding)
-        .attr("y", (d) => yScale(d.increase) + padding);
+        .attr("y", (d) => yScale(d.increase) + padding)
+        .attr("fill", "navy")
+        .attr("filter", "url(#drop-shadow)");
 
       //     add title to rects
       rect.append("title").text((d) => {
@@ -240,6 +309,7 @@ document.getElementById("state-select").addEventListener("change", (e) => {
   }
   country = null;
   state = e.target.value;
+  document.getElementById("graph-label").textContent = "";
   generateStateChart(state);
 });
 
@@ -255,12 +325,11 @@ document.getElementById("country-select").addEventListener("change", (e) => {
   }
   state = null;
   country = e.target.value;
+  document.getElementById("graph-label").textContent = "";
   generateCountryChart(country);
 });
 
 window.addEventListener("orientationchange", () => {
-  console.log("orientation change");
-  console.log(`state == ${state}, country == ${country}`);
   let chart = document.getElementById("chart");
   if (chart) {
     chart.remove();
