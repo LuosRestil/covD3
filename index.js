@@ -36,9 +36,14 @@ const generateStateChart = (state) => {
         item.dateChecked = new Date(year, month, day);
       });
 
+      //     add svg to svg wrapper
+      const svg = d3.select("#svg-wrapper").append("svg").attr("id", "chart");
+      let svgWidth = svg.node().parentNode.clientWidth;
+      let svgHeight = svg.node().parentNode.clientHeight;
+      // svg.attr("width", svgWidth).attr("height", svgHeight);
+      svg.attr("viewBox", `0 0 ${svgWidth} ${svgHeight}`);
+
       //     set variables for dimensions and spacing
-      const svgWidth = window.innerWidth * 0.9;
-      const svgHeight = window.innerHeight * 0.8;
       const padding = 40;
       const chartWidth = svgWidth - padding * 2;
       const chartHeight = svgHeight - padding * 2;
@@ -64,14 +69,6 @@ const generateStateChart = (state) => {
 
       //     build x axis
       const xAxis = d3.axisBottom().scale(xScale);
-
-      //     add svg to svg wrapper
-      const svg = d3
-        .select("#svg-wrapper")
-        .append("svg")
-        .attr("width", svgWidth)
-        .attr("height", svgHeight)
-        .attr("id", "chart");
 
       //      add axes
       svg
@@ -126,13 +123,16 @@ const generateStateChart = (state) => {
       //   .style("font-size", "8px");
 
       //     add header
-      svg
-        .append("text")
-        .attr("x", 50)
-        .attr("y", 30)
-        .text(state + " New Cases Daily")
-        .style("font-size", "1.5rem")
-        .style("font-weight", "bold");
+      document.getElementById(
+        "graph-label"
+      ).textContent = `${state} New Cases Daily`;
+      // svg
+      //   .append("text")
+      //   .attr("x", 50)
+      //   .attr("y", 30)
+      //   .text(state + " New Cases Daily")
+      //   .style("font-size", "1.5rem")
+      //   .style("font-weight", "bold");
     });
 };
 

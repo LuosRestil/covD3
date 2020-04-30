@@ -4,6 +4,15 @@
   box-sizing: border-box;
 }
 
+body {
+  text-align: center;
+}
+
+#graph-id {
+  text-align: center;
+  font-size: 1.5rem;
+}
+
 .bar:hover {
   fill: blue;
 }
@@ -14,4 +23,5 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: auto;
 }
