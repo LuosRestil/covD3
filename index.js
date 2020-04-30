@@ -18,6 +18,9 @@ let months = [
 let state;
 let country;
 
+let loader = document.getElementById("loader");
+let loaderShadow = document.getElementById("loader-shadow");
+
 function responsivefy(svg) {
   const container = d3.select(svg.node().parentNode),
     width = parseInt(svg.style("width"), 10),
@@ -176,6 +179,9 @@ const generateStateChart = (state) => {
       document.getElementById(
         "graph-label"
       ).textContent = `${state} New Cases Daily`;
+
+      loader.style.display = "none";
+      loaderShadow.style.display = "none";
     });
 };
 
@@ -294,12 +300,17 @@ const generateCountryChart = (country) => {
       document.getElementById(
         "graph-label"
       ).textContent = `${country} New Cases Daily`;
+
+      loader.style.display = "none";
+      loaderShadow.style.display = "none";
     });
 };
 
 // ***** STATES *****
 // function fired when state is selected
 document.getElementById("state-select").addEventListener("change", (e) => {
+  loader.style.display = "block";
+  loaderShadow.style.display = "block";
   // reset country selector
   document.getElementById("country-select").value = "DEFAULT";
   //   if there's already a chart, remove it
@@ -316,6 +327,8 @@ document.getElementById("state-select").addEventListener("change", (e) => {
 // ***** COUNTRIES *****
 // function fired when country is selected
 document.getElementById("country-select").addEventListener("change", (e) => {
+  loader.style.display = "block";
+  loaderShadow.style.display = "block";
   // reset state selector
   document.getElementById("state-select").value = "DEFAULT";
   //   if there's already a chart, remove it
@@ -330,6 +343,8 @@ document.getElementById("country-select").addEventListener("change", (e) => {
 });
 
 window.addEventListener("orientationchange", () => {
+  loader.style.display = "block";
+  loaderShadow.style.display = "block";
   let chart = document.getElementById("chart");
   if (chart) {
     chart.remove();
