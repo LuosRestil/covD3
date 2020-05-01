@@ -45,6 +45,23 @@ select {
   margin-right: 5px;
 }
 
+#welcome-wrapper {
+  font-size: 1.5rem;
+  font-family: "Poppins", sans-serif;
+  color: rgb(76, 76, 100);
+  display: block;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 90vh;
+}
+
+#welcome {
+  width: 80%;
+  max-width: 800px;
+}
+
 #loader {
   position: absolute;
   left: 50%;
@@ -116,11 +133,19 @@ select {
   justify-content: center;
   overflow: auto;
   margin-bottom: 10px;
+  display: none;
 }
 
 #select-wrapper-mobile {
   display: none;
   margin-top: 10px;
+}
+
+footer {
+  font-size: 0.5rem;
+  font-family: "Poppins", sans-serif;
+  color: rgb(106, 106, 138);
+  text-align: center;
 }
 
 @media (max-width: 660px) {
