@@ -1,4 +1,4 @@
-// TODO make prettier, fix chart top cutoff on resize increase
+// TODO fix chart top cutoff on resize increase
 
 let months = [
   "January",
