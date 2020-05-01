@@ -188,7 +188,9 @@ const generateStateChart = (state) => {
 
 const generateCountryChart = (country) => {
   //   get country data
-  fetch(`https://api.thevirustracker.com/free-api?countryTimeline=${country}`)
+  fetch(
+    `https://cors-anywhere.herokuapp.com/https://api.thevirustracker.com/free-api?countryTimeline=${country}`
+  )
     .then((response) => response.json())
     .then((dataset) => {
       dataset = dataset.timelineitems[0];
@@ -247,7 +249,6 @@ const generateCountryChart = (country) => {
         .call(xAxis);
 
       // drop shadows
-      // ********************************************
       var defs = svg.append("defs");
 
       var filter = defs
@@ -273,8 +274,6 @@ const generateCountryChart = (country) => {
 
       feMerge.append("feMergeNode").attr("in", "offsetBlur");
       feMerge.append("feMergeNode").attr("in", "SourceGraphic");
-
-      // ********************************************
 
       //     add bars
       let rect = svg
@@ -309,11 +308,12 @@ const generateCountryChart = (country) => {
 
 // ***** STATES *****
 // function fired when state is selected
-document.getElementById("state-select").addEventListener("change", (e) => {
+function stateSelect(e) {
   loader.style.display = "block";
   loaderShadow.style.display = "block";
   // reset country selector
   document.getElementById("country-select").value = "DEFAULT";
+  document.getElementById("country-select-mobile").value = "DEFAULT";
   //   if there's already a chart, remove it
   let chart = document.getElementById("chart");
   if (chart) {
@@ -323,15 +323,24 @@ document.getElementById("state-select").addEventListener("change", (e) => {
   state = e.target.value;
   document.getElementById("graph-label").textContent = "";
   generateStateChart(state);
+}
+document.getElementById("state-select").addEventListener("change", (e) => {
+  stateSelect(e);
 });
+document
+  .getElementById("state-select-mobile")
+  .addEventListener("change", (e) => {
+    stateSelect(e);
+  });
 
 // ***** COUNTRIES *****
-// function fired when country is selected
-document.getElementById("country-select").addEventListener("change", (e) => {
+// function fired when country selected
+function countrySelect(e) {
   loader.style.display = "block";
   loaderShadow.style.display = "block";
   // reset state selector
   document.getElementById("state-select").value = "DEFAULT";
+  document.getElementById("state-select-mobile").value = "DEFAULT";
   //   if there's already a chart, remove it
   let chart = document.getElementById("chart");
   if (chart) {
@@ -341,7 +350,15 @@ document.getElementById("country-select").addEventListener("change", (e) => {
   country = e.target.value;
   document.getElementById("graph-label").textContent = "";
   generateCountryChart(country);
+}
+document.getElementById("country-select").addEventListener("change", (e) => {
+  countrySelect(e);
 });
+document
+  .getElementById("country-select-mobile")
+  .addEventListener("change", (e) => {
+    countrySelect(e);
+  });
 
 window.addEventListener("orientationchange", () => {
   loader.style.display = "block";
