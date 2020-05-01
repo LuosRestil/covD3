@@ -1,4 +1,4 @@
-// TODO make pretty, change x axis ticks on mobile, fix chart top cutoff on resize increase, add loading animation
+// TODO make prettier, fix chart top cutoff on resize increase
 
 let months = [
   "January",
@@ -85,9 +85,10 @@ const generateStateChart = (state) => {
       svg.attr("height", svgHeight).call(responsivefy);
 
       //     set variables for dimensions and spacing
-      const padding = 40;
-      const chartWidth = svgWidth - padding * 2;
-      const chartHeight = svgHeight - padding * 2;
+      const lrPadding = 40;
+      const tbPadding = 20;
+      const chartWidth = svgWidth - lrPadding * 2;
+      const chartHeight = svgHeight - tbPadding * 2;
       let barWidth = chartWidth / data.length;
       const barSpace = 0.1 * barWidth;
       barWidth = barWidth - barSpace;
@@ -117,15 +118,17 @@ const generateStateChart = (state) => {
       //      add axes
       svg
         .append("g")
-        .attr("transform", `translate(${padding}, ${padding})`)
+        .attr("transform", `translate(${lrPadding}, ${tbPadding})`)
         .call(yAxis);
       svg
         .append("g")
-        .attr("transform", `translate(${padding}, ${chartHeight + padding})`)
+        .attr(
+          "transform",
+          `translate(${lrPadding}, ${chartHeight + tbPadding})`
+        )
         .call(xAxis);
 
       // drop shadows
-      // ********************************************
       var defs = svg.append("defs");
 
       var filter = defs
@@ -137,7 +140,7 @@ const generateStateChart = (state) => {
       filter
         .append("feGaussianBlur")
         .attr("in", "SourceAlpha")
-        .attr("stdDeviation", barWidth / 3)
+        .attr("stdDeviation", barWidth / 5)
         .attr("result", "blur");
 
       filter
@@ -152,8 +155,6 @@ const generateStateChart = (state) => {
       feMerge.append("feMergeNode").attr("in", "offsetBlur");
       feMerge.append("feMergeNode").attr("in", "SourceGraphic");
 
-      // ********************************************
-
       //     add bars
       let rect = svg
         .selectAll("rect")
@@ -163,10 +164,10 @@ const generateStateChart = (state) => {
         .attr("class", "bar")
         .attr("width", barWidth)
         .attr("height", (d) => yScale(0) - yScale(d.positiveIncrease))
-        .style("filter", "url(#drop-shadow)")
         .attr("fill", "navy")
-        .attr("x", (d, i) => xScale(d.dateChecked) + padding)
-        .attr("y", (d) => yScale(d.positiveIncrease) + padding);
+        .attr("x", (d, i) => xScale(d.dateChecked) + lrPadding)
+        .attr("y", (d) => yScale(d.positiveIncrease) + tbPadding)
+        .style("filter", "url(#drop-shadow)");
 
       //     add title to rects
       rect.append("title").text((d) => {

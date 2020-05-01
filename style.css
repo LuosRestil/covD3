@@ -6,28 +6,31 @@
 header {
   height: 10vh;
   width: 100vw;
-  background: rgb(133, 0, 150);
   background: linear-gradient(
     0deg,
-    rgb(202, 3, 233) 0%,
-    rgba(123, 9, 151, 1) 15%,
-    rgba(110, 0, 138, 1) 35%,
-    rgba(100, 0, 128, 1) 50%,
-    rgba(110, 0, 138, 1) 64%,
-    rgba(123, 9, 151, 1) 82%,
-    rgb(139, 0, 160) 100%
+    rgba(95, 95, 95, 1) 0%,
+    rgba(70, 70, 70, 1) 10%,
+    rgba(60, 60, 60, 1) 30%,
+    rgba(50, 50, 50, 1) 50%,
+    rgba(60, 60, 60, 1) 70%,
+    rgba(70, 70, 70, 1) 90%,
+    rgba(80, 80, 80, 1) 100%
   );
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 2px 2px 5px lightgray;
+  box-shadow: 2px 2px 5px gray;
 }
 
 #logo {
   font-family: "Poppins", sans-serif;
-  color: rgb(238, 189, 238);
+  color: rgb(223, 223, 223);
   padding-left: 1rem;
   font-size: 2rem;
+}
+
+#logo-2 {
+  font-family: "Dancing Script", cursive;
 }
 
 select {
@@ -38,7 +41,7 @@ select {
 
 #or {
   font-family: "Poppins", sans-serif;
-  color: rgb(238, 189, 238);
+  color: rgb(223, 223, 223);
   margin-right: 5px;
 }
 
@@ -96,9 +99,9 @@ select {
 #graph-label {
   text-align: center;
   font-size: 2rem;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   font-family: "Poppins", sans-serif;
-  color: rgb(78, 66, 82);
+  color: rgb(76, 76, 100);
 }
 
 .bar:hover {
