@@ -170,7 +170,8 @@ footer {
   }
 
   #or {
-    color: rgb(76, 76, 100);
+    /* color: rgb(76, 76, 100); */
+    color: red;
   }
 
   #svg-wrapper {
