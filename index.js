@@ -343,6 +343,10 @@ function countrySelect(e) {
   document.getElementById("state-select-mobile").value = "DEFAULT";
   //   if there's already a chart, remove it
   let chart = document.getElementById("chart");
+  while (chart) {
+    chart.remove();
+    chart = document.getElementById("chart");
+  }
   if (chart) {
     chart.remove();
   }
