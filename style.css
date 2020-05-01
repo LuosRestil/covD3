@@ -122,7 +122,7 @@ select {
   margin-top: 5px;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 660px) {
   #select-wrapper-mobile {
     display: block;
   }
