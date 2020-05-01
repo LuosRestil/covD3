@@ -119,7 +119,7 @@ select {
 
 #select-wrapper-mobile {
   display: none;
-  margin-top: 5px;
+  margin-top: 10px;
 }
 
 @media (max-width: 660px) {
