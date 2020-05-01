@@ -142,4 +142,8 @@ select {
   select {
     width: 150px;
   }
+
+  #svg-wrapper {
+    height: 75vh;
+  }
 }
