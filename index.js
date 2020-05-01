@@ -309,7 +309,7 @@ const generateCountryChart = (country) => {
 // ***** STATES *****
 // function fired when state is selected
 function stateSelect(e) {
-  document.getElementById("welcome").style.display = "none";
+  document.getElementById("welcome-wrapper").style.display = "none";
   document.getElementById("svg-wrapper").style.display = "block";
   loader.style.display = "block";
   loaderShadow.style.display = "block";
@@ -338,7 +338,7 @@ document
 // ***** COUNTRIES *****
 // function fired when country selected
 function countrySelect(e) {
-  document.getElementById("welcome").style.display = "none";
+  document.getElementById("welcome-wrapper").style.display = "none";
   document.getElementById("svg-wrapper").style.display = "block";
   loader.style.display = "block";
   loaderShadow.style.display = "block";

@@ -142,7 +142,7 @@ select {
 }
 
 footer {
-  font-size: 0.5rem;
+  font-size: 0.75rem;
   font-family: "Poppins", sans-serif;
   color: rgb(106, 106, 138);
   text-align: center;
@@ -169,7 +169,15 @@ footer {
     width: 150px;
   }
 
+  #or {
+    color: rgb(76, 76, 100);
+  }
+
   #svg-wrapper {
     height: 75vh;
+  }
+
+  footer {
+    font-size: 0.5rem;
   }
 }
