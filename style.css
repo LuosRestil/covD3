@@ -170,8 +170,7 @@ footer {
   }
 
   #or {
-    /* color: rgb(76, 76, 100); */
-    color: red;
+    color: rgb(76, 76, 100);
   }
 
   #svg-wrapper {
@@ -179,6 +178,6 @@ footer {
   }
 
   footer {
-    font-size: 0.3rem;
+    font-size: 0.5rem;
   }
 }
