@@ -123,6 +123,10 @@ select {
 }
 
 @media (max-width: 660px) {
+  header {
+    justify-content: center;
+  }
+
   #select-wrapper-mobile {
     display: block;
   }
