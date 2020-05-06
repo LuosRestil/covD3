@@ -85,9 +85,10 @@ const generateStateChart = (state) => {
       svg.attr("height", svgHeight).call(responsivefy);
 
       //     set variables for dimensions and spacing
-      const lrPadding = 40;
+      const lPadding = 45;
+      const rPadding = 40;
       const tbPadding = 20;
-      const chartWidth = svgWidth - lrPadding * 2;
+      const chartWidth = svgWidth - lPadding - rPadding;
       const chartHeight = svgHeight - tbPadding * 2;
       let barWidth = chartWidth / data.length;
       const barSpace = 0.1 * barWidth;
@@ -118,14 +119,11 @@ const generateStateChart = (state) => {
       //      add axes
       svg
         .append("g")
-        .attr("transform", `translate(${lrPadding}, ${tbPadding})`)
+        .attr("transform", `translate(${lPadding}, ${tbPadding})`)
         .call(yAxis);
       svg
         .append("g")
-        .attr(
-          "transform",
-          `translate(${lrPadding}, ${chartHeight + tbPadding})`
-        )
+        .attr("transform", `translate(${lPadding}, ${chartHeight + tbPadding})`)
         .call(xAxis);
 
       // drop shadows
@@ -165,7 +163,7 @@ const generateStateChart = (state) => {
         .attr("width", barWidth)
         .attr("height", (d) => yScale(0) - yScale(d.positiveIncrease))
         .attr("fill", "navy")
-        .attr("x", (d, i) => xScale(d.dateChecked) + lrPadding)
+        .attr("x", (d, i) => xScale(d.dateChecked) + lPadding)
         .attr("y", (d) => yScale(d.positiveIncrease) + tbPadding)
         .style("filter", "url(#drop-shadow)");
 
@@ -181,6 +179,7 @@ const generateStateChart = (state) => {
         "graph-label"
       ).textContent = `${state} New Cases Daily`;
 
+      // remove loading animation
       loader.style.display = "none";
       loaderShadow.style.display = "none";
     });
@@ -188,9 +187,7 @@ const generateStateChart = (state) => {
 
 const generateCountryChart = (country) => {
   //   get country data
-  fetch(
-    `https://cors-anywhere.herokuapp.com/https://api.thevirustracker.com/free-api?countryTimeline=${country}`
-  )
+  fetch(`https://sandpaper-sandpiper.herokuapp.com/fetch/${country}`)
     .then((response) => response.json())
     .then((dataset) => {
       dataset = dataset.timelineitems[0];
@@ -212,9 +209,11 @@ const generateCountryChart = (country) => {
       svg.attr("height", svgHeight).call(responsivefy);
 
       //     set variables for dimensions and spacing
-      const padding = 40;
-      const chartWidth = svgWidth - padding * 2;
-      const chartHeight = svgHeight - padding * 2;
+      const lPadding = 45;
+      const rPadding = 40;
+      const tbPadding = 20;
+      const chartWidth = svgWidth - lPadding - rPadding;
+      const chartHeight = svgHeight - tbPadding * 2;
       let barWidth = chartWidth / data.length;
       const barSpace = 0.1 * barWidth;
       barWidth = barWidth - barSpace;
@@ -241,11 +240,11 @@ const generateCountryChart = (country) => {
       //      add axes
       svg
         .append("g")
-        .attr("transform", `translate(${padding}, ${padding})`)
+        .attr("transform", `translate(${lPadding}, ${tbPadding})`)
         .call(yAxis);
       svg
         .append("g")
-        .attr("transform", `translate(${padding}, ${chartHeight + padding})`)
+        .attr("transform", `translate(${lPadding}, ${chartHeight + tbPadding})`)
         .call(xAxis);
 
       // drop shadows
@@ -284,8 +283,8 @@ const generateCountryChart = (country) => {
         .attr("class", "bar")
         .attr("width", barWidth)
         .attr("height", (d) => yScale(0) - yScale(d.increase))
-        .attr("x", (d, i) => xScale(d.date) + padding)
-        .attr("y", (d) => yScale(d.increase) + padding)
+        .attr("x", (d, i) => xScale(d.date) + lPadding)
+        .attr("y", (d) => yScale(d.increase) + tbPadding)
         .attr("fill", "navy")
         .attr("filter", "url(#drop-shadow)");
 
@@ -301,6 +300,7 @@ const generateCountryChart = (country) => {
         "graph-label"
       ).textContent = `${country} New Cases Daily`;
 
+      // remove loading animation
       loader.style.display = "none";
       loaderShadow.style.display = "none";
     });
@@ -309,7 +309,9 @@ const generateCountryChart = (country) => {
 // ***** STATES *****
 // function fired when state is selected
 function stateSelect(e) {
+  // remove welcome text
   document.getElementById("welcome-wrapper").style.display = "none";
+  // start loading animation
   document.getElementById("svg-wrapper").style.display = "block";
   loader.style.display = "block";
   loaderShadow.style.display = "block";
@@ -338,7 +340,9 @@ document
 // ***** COUNTRIES *****
 // function fired when country selected
 function countrySelect(e) {
+  // remove welcome text
   document.getElementById("welcome-wrapper").style.display = "none";
+  // start loading animation
   document.getElementById("svg-wrapper").style.display = "block";
   loader.style.display = "block";
   loaderShadow.style.display = "block";
@@ -368,6 +372,7 @@ document
     countrySelect(e);
   });
 
+// reload on orientation change (mobile)
 window.addEventListener("orientationchange", () => {
   loader.style.display = "block";
   loaderShadow.style.display = "block";
