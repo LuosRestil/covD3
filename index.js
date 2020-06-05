@@ -57,7 +57,7 @@ function responsivefy(svg) {
 
 const generateStateChart = (state) => {
   //   get state data
-  fetch(`https://covidtracking.com/api/v1/states/${state}/daily.json`)
+  fetch(`https://covidtracking.com/api/v1/states/${state.toLowerCase()}/daily.json`)
     .then((response) => response.json())
     .then((data) => {
       //     sort data by date, chop off initial null value
@@ -68,10 +68,10 @@ const generateStateChart = (state) => {
         if (item.positiveIncrease < 0) {
           item.positiveIncrease = 0;
         }
-        let dateObject = new Date(item.dateChecked);
-        let year = dateObject.getFullYear();
-        let month = dateObject.getMonth();
-        let day = dateObject.getDate();
+        let dateString = item.date.toString();
+        let year = dateString.slice(0, 4);
+        let month = (parseInt(dateString.slice(4, 6)) - 1).toString();
+        let day = dateString.slice(6);
         item.dateChecked = new Date(year, month, day);
       });
 
@@ -81,11 +81,11 @@ const generateStateChart = (state) => {
       let svgHeight = d3.select("#svg-wrapper").style("height");
       svgWidth = parseInt(svgWidth.slice(0, -2));
       svgHeight = parseInt(svgHeight.slice(0, -2));
-      svg.attr("width", svgWidth);
+      svg.attr("width", svgWidth + 30);
       svg.attr("height", svgHeight).call(responsivefy);
 
       //     set variables for dimensions and spacing
-      const lPadding = 45;
+      const lPadding = 55;
       const rPadding = 40;
       const tbPadding = 20;
       const chartWidth = svgWidth - lPadding - rPadding;
