@@ -57,7 +57,7 @@ function responsivefy(svg) {
 
 const generateStateChart = (state) => {
   //   get state data
-  fetch(`https://covidtracking.com/api/v1/states/${state.toLowerCase()}/daily.json`)
+  fetch(`https://api.covidtracking.com/v1/states/${state.toLowerCase()}/daily.json`)
     .then((response) => response.json())
     .then((data) => {
       //     sort data by date, chop off initial null value
