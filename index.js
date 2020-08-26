@@ -205,7 +205,7 @@ const generateCountryChart = (country) => {
       let svgHeight = d3.select("#svg-wrapper").style("height");
       svgWidth = parseInt(svgWidth.slice(0, -2));
       svgHeight = parseInt(svgHeight.slice(0, -2));
-      svg.attr("width", svgWidth);
+      svg.attr("width", svgWidth + 30);
       svg.attr("height", svgHeight).call(responsivefy);
 
       //     set variables for dimensions and spacing
@@ -351,10 +351,6 @@ function countrySelect(e) {
   document.getElementById("state-select-mobile").value = "DEFAULT";
   //   if there's already a chart, remove it
   let chart = document.getElementById("chart");
-  while (chart) {
-    chart.remove();
-    chart = document.getElementById("chart");
-  }
   if (chart) {
     chart.remove();
   }
