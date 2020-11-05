@@ -190,14 +190,17 @@ const generateCountryChart = (country) => {
   fetch(`https://sandpaper-sandpiper.herokuapp.com/fetch/${country}`)
     .then((response) => response.json())
     .then((dataset) => {
-      dataset = dataset.timelineitems[0];
-      delete dataset.stat;
+      // dataset.timeline.cases is an object, {date: cases}
+      dataset = Object.entries(dataset.timeline.cases);
       let data = [];
-      for (let item in dataset) {
-        let dateParts = item.split("/");
-        let date = new Date(2020, dateParts[0] - 1, dateParts[1]);
-        data.push({ date: date, increase: dataset[item].new_daily_cases });
+      let previousCases = 0;
+      for (let item of dataset) {
+        let dateParts = item[0].split("/");
+        let date = new Date(parseInt(`20${dateParts[2]}`), dateParts[0] - 1, dateParts[1]);
+        data.push({ date: date, increase: item[1] - previousCases });
+        previousCases = item[1];
       }
+      // TODO sort data by date?
 
       //     add svg to svg wrapper
       const svg = d3.select("#svg-wrapper").append("svg").attr("id", "chart");
